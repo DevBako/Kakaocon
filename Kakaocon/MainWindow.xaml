@@ -1,0 +1,166 @@
+﻿<Window x:Class="Kakaocon.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kakaocon"
+        mc:Ignorable="d"
+		WindowStyle="None"
+		Loaded="Window_Loaded"
+		Closing="Window_Closing"
+		ShowInTaskbar="False"
+		Topmost="True"
+		Opacity="0"
+		Visibility="Collapsed"
+		Deactivated="Window_Deactivated"
+		AllowsTransparency="True"
+		Background="Transparent"
+		SizeToContent="WidthAndHeight"
+        Title="MainWindow">
+	<Grid Margin="5" Width="516" Height="460" Background="Transparent">
+		<Grid.Effect>
+			<DropShadowEffect x:Name="grideffectShadow" BlurRadius="10" ShadowDepth="1" Direction="270" Color="Black" Opacity="0.6"/>
+		</Grid.Effect>
+		<Grid.OpacityMask>
+			<VisualBrush Visual="{Binding ElementName=Border1}" />
+		</Grid.OpacityMask>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="48"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<Border Grid.RowSpan="2" x:Name="Border1" CornerRadius="3" Background="Green" />
+		<Grid Height="48" Background="{DynamicResource PrimaryBrush}" MouseDown="Grid_MouseDown">
+			<local:ImageButton
+					x:Name="buttonClose"
+					Size="48"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Center"
+					Source="Resources/close.png"
+					Type="show"
+					InnerMargin="8"
+					Response="buttonClose_Response" />
+			<StackPanel Orientation="Horizontal">
+				<local:ImageButton
+						x:Name="buttonLocal"
+						Response="ImageButton_Response"
+						Size="48"
+						Source="Resources/emoticon.png"
+						Type="local"
+						Selected="True"
+						InnerMargin="12"/>
+				<local:ImageButton
+						x:Name="buttonOnline"
+						Response="ImageButton_Response"
+						Size="48"
+						Selected="False"
+						Source="Resources/search.png"
+						Type="online"
+						InnerMargin="12"/>
+			</StackPanel>
+		</Grid>
+		<Grid Grid.Row="1" Background="White">
+			<Grid x:Name="gridLocal" Visibility="Visible">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="116"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<ScrollViewer>
+					<StackPanel Width="100" HorizontalAlignment="Left" Background="White" x:Name="stackLocalList" Orientation="Vertical"/>
+				</ScrollViewer>
+				<ScrollViewer x:Name="scrollList" Grid.Column="1" VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" Background="Transparent">
+					<Grid x:Name="gridLocalItemList"/>
+				</ScrollViewer>
+			</Grid>
+			<Grid x:Name="gridOnline" Visibility="Collapsed">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="48"/>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="48"/>
+					<ColumnDefinition Width="48"/>
+					<ColumnDefinition Width="50"/>
+					<ColumnDefinition Width="48"/>
+				</Grid.ColumnDefinitions>
+				<TextBox x:Name="textboxSearch" Margin="10" KeyDown="textboxSearch_KeyDown"/>
+				<local:ImageButton
+						x:Name="buttonSearch"
+						Grid.Column="1"
+						Response="ImageButton_Response"
+						Size="48"
+						Selected="True"
+						Source="Resources/search_gray.png"
+						Type="search"
+						InnerMargin="12"/>
+				<local:ImageButton
+						ViewMode="Disable"
+						x:Name="buttonPrev"
+						Grid.Column="2"
+						Response="ImageButton_Response"
+						Size="48"
+						Selected="True"
+						Source="Resources/left.png"
+						Type="prev"
+						InnerMargin="12"/>
+				<TextBlock x:Name="textPage" Foreground="Gray" FontSize="24" HorizontalAlignment="Center" Grid.Column="3"/>
+				<local:ImageButton
+						x:Name="buttonNext"
+						ViewMode="Disable"
+						Grid.Column="4"
+						Response="ImageButton_Response"
+						Size="48"
+						Selected="True"
+						Source="Resources/right.png"
+						Type="next"
+						InnerMargin="12"/>
+				<Grid x:Name="gridResult" Width="500" Grid.Row="1" Grid.ColumnSpan="5" HorizontalAlignment="Center"/>
+			</Grid>
+		</Grid>
+		<!--
+		<Image x:Name="image"/>
+		<Button x:Name="button" Width="100" Height="40" Click="button_Click"/>
+		-->
+		<Grid x:Name="gridInfo" Visibility="Collapsed" Grid.RowSpan="2" Background="#99000000">
+			<Grid Width="400" Height="348">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="48"/>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+				<Grid Background="{DynamicResource PrimaryBrush}">
+					<TextBlock x:Name="textDetailTitle" Foreground="Black" Margin="15,0,100,0"/>
+					<local:ImageButton
+							Size="48"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Source="Resources/close.png"
+							Type="close_modal"
+							InnerMargin="8"
+							Response="ImageButton_Response" />
+					<local:ImageButton
+							x:Name="buttonDownload"
+							Size="48"
+							Margin="0,0,48,0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Source="Resources/download.png"
+							Type="download"
+							InnerMargin="10"
+							Response="ImageButton_Response" />
+				</Grid>
+				<Grid Grid.Row="1" Background="White">
+					<ScrollViewer x:Name="scrollPreview" VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" Background="Transparent">
+						<Grid x:Name="gridOnlineItemList"/>
+					</ScrollViewer>
+				</Grid>
+				<Grid x:Name="gridProgress" Visibility="Collapsed" Grid.RowSpan="2" Background="#bb000000">
+					<TextBlock x:Name="textProgress"
+								   Foreground="White" 
+								   FontSize="22"
+								   HorizontalAlignment="Center"
+								   VerticalAlignment="Center"/>
+				</Grid>
+			</Grid>
+		</Grid>
+	</Grid>
+</Window>
