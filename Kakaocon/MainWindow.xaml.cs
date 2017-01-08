@@ -60,6 +60,7 @@ namespace Kakaocon {
 					IconItemView view = new IconItemView();
 					view.setIconSet(id, Path.Combine(Store.OnlinePath, id, Store.TitleImageFileName));
 					view.setLocalImageClickListener(this);
+					view.setSelectable(true);
 
 					stackLocalList.Children.Add(view);
 				}
@@ -213,6 +214,7 @@ namespace Kakaocon {
 						IconItemView view = new IconItemView();
 						view.Margin = new Thickness((i % 5) * 100, (i / 5) * 120, 0, 0);
 						view.setIconSetClickListener(this);
+						view.setSelectable(true);
 						gridResult.Children.Add(view);
 						view.setIconSet(list[i]);
 					}
@@ -264,6 +266,7 @@ namespace Kakaocon {
 						IconItemView view = new IconItemView();
 						view.Margin = new Thickness((i % 4) * 100, (i / 4) * 100, 0, 0);
 						view.setLocalImageClickListener(this);
+						view.setSelectable(true);
 						gridLocalItemList.Children.Add(view);
 						view.setPath(Path.Combine(Store.OnlinePath, id, list[i]));
 					}

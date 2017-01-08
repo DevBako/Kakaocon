@@ -8,7 +8,7 @@
 			 HorizontalAlignment="Left" 
 			 VerticalAlignment="Top"
 			 Width="100">
-	<Grid>
+	<Grid MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
 		<StackPanel Orientation="Vertical">
 			<Grid Width="100" Background="White">
 				<Grid x:Name="grid" Width="90" Height="90">
@@ -22,6 +22,7 @@
 				<TextBlock x:Name="seller" Text="Title" Margin="5,0" HorizontalAlignment="Center" FontSize="12" Foreground="Gray"/>
 			</StackPanel>
 		</StackPanel>
+		<Rectangle x:Name="hover" IsHitTestVisible="False" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#33a0c0d7"/>
 		<Button Click="Button_Click" Background="Transparent" />
 	</Grid>
 </UserControl>

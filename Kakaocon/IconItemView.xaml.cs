@@ -33,6 +33,7 @@ namespace Kakaocon {
 		IconSet iconSet;
 		string id;
 		string path;
+		bool selectable = false;
 
 		public void setUrl(string url) {
 			WebClient webClient = Utils.CreateImageWebClient();
@@ -123,6 +124,27 @@ namespace Kakaocon {
 			else if(path != null && localImageListener != null) {
 				localImageListener.LocalImage_Clicked(path);
 			}
+		}
+
+		public void setSelectable(bool flag) {
+			this.selectable = flag;
+
+			if (this.selectable) {
+				this.Cursor = Cursors.Hand;
+			}
+			else {
+				this.Cursor = Cursors.Arrow;
+			}
+		}
+
+		private void Grid_MouseEnter(object sender, MouseEventArgs e) {
+			if (selectable) {
+				hover.Visibility = Visibility.Visible;
+			}
+		}
+
+		private void Grid_MouseLeave(object sender, MouseEventArgs e) {
+			hover.Visibility = Visibility.Collapsed;
 		}
 	}
 }
