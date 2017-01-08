@@ -33,6 +33,7 @@ namespace Kakaocon {
 		int requestId = 1;
 		string ci_c;
 		IconSet selectedSet;
+		string selectedLocalSet;
 		List<IconItem> selectedList;
 		bool showing = false;
 		bool closeFlag = false;
@@ -51,7 +52,7 @@ namespace Kakaocon {
 			}
 
 			if (Store.DataList.Count > 0) {
-				IconSet_Clicked(Store.DataList[0]);
+				IconLocalSet_Clicked(Store.DataList[0]);
 			}
 			else {
 				ImageButton_Response(null, new CustomButtonEventArgs("click", "online", ""));
@@ -146,12 +147,18 @@ namespace Kakaocon {
 						buttonOnline.Selected = ImageButton.SelectedMode.False;
 						gridOnline.Visibility = Visibility.Collapsed;
 						gridLocal.Visibility = Visibility.Visible;
+
+						if (selectedLocalSet != null) {
+							buttonRemove.ViewMode = ImageButton.Mode.Visible;
+						}
 					}
 					break;
 
 				case "online":
 					if (isLocal) {
 						isLocal = false;
+
+						buttonRemove.ViewMode = ImageButton.Mode.Hidden;
 						buttonLocal.Selected = ImageButton.SelectedMode.False;
 						buttonOnline.Selected = ImageButton.SelectedMode.True;
 						gridOnline.Visibility = Visibility.Visible;
@@ -179,6 +186,31 @@ namespace Kakaocon {
 					selectedSet = null;
 					selectedList = null;
 					gridInfo.Visibility = Visibility.Collapsed;
+					break;
+
+				case "remove":
+					if (selectedLocalSet != null) {
+						int index = -1;
+						for (int i = 0; i < stackLocalList.Children.Count; i++) {
+							if (stackLocalList.Children[i] is IconItemView) {
+								IconItemView view = (IconItemView)stackLocalList.Children[i];
+								if (view.Id == selectedLocalSet) {
+									stackLocalList.Children.RemoveAt(i);
+									index = i;
+									break;
+								}
+
+							}
+						}
+						Store.Remove(selectedLocalSet);
+
+						if (Store.DataList.Count == 0) {
+							IconLocalSet_Clicked(null);
+						}
+						else {
+							IconLocalSet_Clicked(Store.DataList[Math.Min(Store.DataList.Count - 1, index)]);
+						}
+					}
 					break;
 
 				case "download":
@@ -262,9 +294,12 @@ namespace Kakaocon {
 			}
 		}
 
-		public void IconSet_Clicked(string id) {
+		public void IconLocalSet_Clicked(string id) {
 			scrollList.ScrollToTop();
 			gridLocalItemList.Children.Clear();
+
+			selectedLocalSet = id;
+			buttonRemove.ViewMode = id == null ? ImageButton.Mode.Hidden : ImageButton.Mode.Visible;
 
 			if (Store.validation(id)) {
 				List<string> list = Parser.parseLocaItemSet(id);

@@ -216,6 +216,7 @@
     <Resource Include="Resources\update.ico" />
     <Resource Include="Resources\image.png" />
     <Resource Include="Resources\no.png" />
+    <Resource Include="Resources\delete.png" />
     <Content Include="WpfAnimatedGif\WpfAnimatedGif.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

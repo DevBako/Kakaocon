@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kakaocon.Handler {
 	public interface LocalImageListener {
-		void IconSet_Clicked(string id);
+		void IconLocalSet_Clicked(string id);
 		void LocalImage_Clicked(string path);
 	}
 }

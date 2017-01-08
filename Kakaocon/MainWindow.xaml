@@ -31,12 +31,22 @@
 		<Border Grid.RowSpan="2" x:Name="Border1" CornerRadius="3" Background="Green" />
 		<Grid Height="48" Background="{DynamicResource PrimaryBrush}" MouseDown="Grid_MouseDown">
 			<local:ImageButton
+					x:Name="buttonRemove"
+					Size="48"
+					ViewMode="Hidden"
+					Margin="0,0,48,0"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Center"
+					Source="Resources/delete.png"
+					Type="remove"
+					InnerMargin="8"
+					Response="ImageButton_Response" />
+			<local:ImageButton
 					x:Name="buttonClose"
 					Size="48"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
 					Source="Resources/close.png"
-					Type="show"
 					InnerMargin="8"
 					Response="buttonClose_Response" />
 			<StackPanel Orientation="Horizontal">

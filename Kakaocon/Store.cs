@@ -57,10 +57,13 @@ namespace Kakaocon {
 		}
 
 		public static bool validation(string id) {
-			string titleImagePath = Path.Combine(OnlinePath, id, TitleImageFileName);
-			string dataFilePath = Path.Combine(OnlinePath, id, DataFileName);
+			if (id != null) {
+				string titleImagePath = Path.Combine(OnlinePath, id, TitleImageFileName);
+				string dataFilePath = Path.Combine(OnlinePath, id, DataFileName);
 
-			return File.Exists(titleImagePath) && File.Exists(dataFilePath);
+				return File.Exists(titleImagePath) && File.Exists(dataFilePath);
+			}
+			return false;
 		}
 
 		public static bool add(string id) {
@@ -90,6 +93,24 @@ namespace Kakaocon {
 
 		public static bool dataExists(string id) {
 			return DataList.Exists(x => x == id);
+		}
+
+		public static void Remove(string id) {
+			DataList.Remove(id);
+			save();
+
+			if (Directory.Exists(Path.Combine(OnlinePath, id))) {
+				foreach(string path in Directory.GetFiles(Path.Combine(OnlinePath, id))) {
+					try {
+						File.Delete(path);
+					}
+					catch { }
+				}
+				try {
+					Directory.Delete(Path.Combine(OnlinePath, id));
+				}
+				catch { }
+			}
 		}
 
 		public static void CleanUpTemp() {

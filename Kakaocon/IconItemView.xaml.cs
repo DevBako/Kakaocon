@@ -35,6 +35,11 @@ namespace Kakaocon {
 		string path;
 		bool selectable = false;
 
+		public string Id {
+			get { return id; }
+		}
+
+
 		public void setUrl(string url) {
 			WebClient webClient = Utils.CreateImageWebClient();
 			webClient.DownloadDataCompleted += (s, e) => {
@@ -119,7 +124,7 @@ namespace Kakaocon {
 				iconSetListener.IconSet_Clicked(iconSet);
 			}
 			if (id != null && localImageListener != null) {
-				localImageListener.IconSet_Clicked(id);
+				localImageListener.IconLocalSet_Clicked(id);
 			}
 			else if(path != null && localImageListener != null) {
 				localImageListener.LocalImage_Clicked(path);
