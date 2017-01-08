@@ -50,6 +50,13 @@ namespace Kakaocon {
 				addItem(id);
 			}
 
+			if (Store.DataList.Count > 0) {
+				IconSet_Clicked(Store.DataList[0]);
+			}
+			else {
+				ImageButton_Response(null, new CustomButtonEventArgs("click", "online", ""));
+			}
+
 			launcher = new Launcher(this);
 			launcher.Show();
 		}
