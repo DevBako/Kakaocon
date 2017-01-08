@@ -36,6 +36,7 @@ namespace Kakaocon {
 			using (StreamWriter sw = new StreamWriter(Path.Combine(Store.RootPath, Store.LogFileName), true)) {
 				try {
 					Exception ex = (Exception)args.ExceptionObject;
+					sw.WriteLine(DateTime.Now);
 					sw.WriteLine(ex.Message);
 					sw.WriteLine(ex.StackTrace);
 					sw.WriteLine();
