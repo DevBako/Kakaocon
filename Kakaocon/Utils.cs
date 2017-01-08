@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -9,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Kakaocon.Model;
 
@@ -239,6 +241,20 @@ namespace Kakaocon {
 			worker.RunWorkerAsync();
 		}
 
+		private static BitmapSource ReplaceTransparency(BitmapSource bitmap, System.Windows.Media.Color color) {
+			var rect = new Rect(0, 0, bitmap.PixelWidth, bitmap.PixelHeight);
+			var visual = new DrawingVisual();
+			var context = visual.RenderOpen();
+			context.DrawRectangle(new SolidColorBrush(color), null, rect);
+			context.DrawImage(bitmap, rect);
+			context.Close();
+
+			var render = new RenderTargetBitmap(bitmap.PixelWidth, bitmap.PixelHeight,
+				96, 96, PixelFormats.Pbgra32);
+			render.Render(visual);
+			return render;
+		}
+
 		public static string ResizeImageTemporary(string inputPath, int width, int height) {
 			if (!File.Exists(inputPath)) {
 				return null;
@@ -262,8 +278,9 @@ namespace Kakaocon {
 					bitmap.EndInit();
 				}
 
+				BitmapSource bitmapSource = ReplaceTransparency(bitmap, Colors.White);
 				BitmapEncoder encoder = new JpegBitmapEncoder() { QualityLevel = 100 };
-				encoder.Frames.Add(BitmapFrame.Create(bitmap));
+				encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
 
 				string outputPath = Store.TempPath + randomString(30) + ".jpg";
 				using (var stream = new FileStream(outputPath, FileMode.Create)) {

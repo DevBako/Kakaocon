@@ -49,8 +49,13 @@ namespace Kakaocon {
 				bitmap.BeginInit();
 				bitmap.StreamSource = new MemoryStream(MyData);
 				bitmap.EndInit();
-
-				ImageBehavior.SetAnimatedSource(image, bitmap);
+				
+				try {
+					ImageBehavior.SetAnimatedSource(image, bitmap);
+				}
+				catch {
+					image.Source = bitmap;
+				}
 			};
 			webClient.DownloadDataAsync(new Uri(url));
 		}
@@ -59,17 +64,25 @@ namespace Kakaocon {
 			this.path = path;
 			loading.Visibility = Visibility.Collapsed;
 
+			BitmapImage bitmap = new BitmapImage();
+
 			try {
-				BitmapImage bitmap = new BitmapImage();
 				bitmap.BeginInit();
 				bitmap.UriSource = new Uri(path);
 				bitmap.CacheOption = BitmapCacheOption.OnLoad;
 				bitmap.EndInit();
-				ImageBehavior.SetAnimatedSource(image, bitmap);
 			}
 			catch {
 				image.Visibility = Visibility.Collapsed;
 				failed.Visibility = Visibility.Visible;
+				return;
+			}
+
+			try {
+				ImageBehavior.SetAnimatedSource(image, bitmap);
+			}
+			catch {
+				image.Source = bitmap;
 			}
 		}
 
