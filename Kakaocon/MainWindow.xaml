@@ -17,7 +17,7 @@
 		Background="Transparent"
 		SizeToContent="WidthAndHeight"
         Title="MainWindow">
-	<Grid Margin="5" Width="516" Height="460" Background="Transparent">
+	<Grid Margin="5" Width="466" Height="460" Background="Transparent">
 		<Grid.Effect>
 			<DropShadowEffect x:Name="grideffectShadow" BlurRadius="10" ShadowDepth="1" Direction="270" Color="Black" Opacity="0.6"/>
 		</Grid.Effect>
@@ -39,7 +39,7 @@
 					VerticalAlignment="Center"
 					Source="Resources/delete.png"
 					Type="remove"
-					InnerMargin="8"
+					InnerMargin="10"
 					Response="ImageButton_Response" />
 			<local:ImageButton
 					x:Name="buttonClose"
@@ -71,12 +71,13 @@
 		<Grid Grid.Row="1" Background="White">
 			<Grid x:Name="gridLocal" Visibility="Visible">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="116"/>
+					<ColumnDefinition Width="106"/>
 					<ColumnDefinition Width="*"/>
 				</Grid.ColumnDefinitions>
 				<ScrollViewer>
-					<StackPanel Width="100" HorizontalAlignment="Left" Background="White" x:Name="stackLocalList" Orientation="Vertical"/>
+					<StackPanel Width="90" HorizontalAlignment="Left" Background="White" x:Name="stackLocalList" Orientation="Vertical"/>
 				</ScrollViewer>
+				<Rectangle Width="1" VerticalAlignment="Stretch" Fill="LightGray" HorizontalAlignment="Right"/>
 				<ScrollViewer x:Name="scrollList" Grid.Column="1" VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" Background="Transparent">
 					<Grid x:Name="gridLocalItemList"/>
 				</ScrollViewer>
@@ -124,7 +125,7 @@
 						Source="Resources/right.png"
 						Type="next"
 						InnerMargin="12"/>
-				<Grid x:Name="gridResult" Width="500" Grid.Row="1" Grid.ColumnSpan="5" HorizontalAlignment="Center"/>
+				<Grid x:Name="gridResult" Width="450" Grid.Row="1" Grid.ColumnSpan="5" HorizontalAlignment="Center"/>
 			</Grid>
 		</Grid>
 		<!--
@@ -132,13 +133,13 @@
 		<Button x:Name="button" Width="100" Height="40" Click="button_Click"/>
 		-->
 		<Grid x:Name="gridInfo" Visibility="Collapsed" Grid.RowSpan="2" Background="#99000000">
-			<Grid Width="400" Height="348">
+			<Grid Width="360" Height="348">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="48"/>
 					<RowDefinition Height="*"/>
 				</Grid.RowDefinitions>
 				<Grid Background="{DynamicResource PrimaryBrush}">
-					<TextBlock x:Name="textDetailTitle" Foreground="Black" Margin="15,0,100,0"/>
+					<TextBlock x:Name="textDetailTitle" Foreground="White" Margin="15,0,100,0"/>
 					<local:ImageButton
 							Size="48"
 							HorizontalAlignment="Right"

@@ -12,9 +12,11 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Windows.Threading;
 using HtmlAgilityPack;
 using Kakaocon.Handler;
 using Kakaocon.Model;
@@ -60,6 +62,27 @@ namespace Kakaocon {
 
 			launcher = new Launcher(this);
 			launcher.Show();
+
+			DispatcherTimer mainTimer = new DispatcherTimer();
+			mainTimer.Interval = TimeSpan.FromMilliseconds(300);
+			mainTimer.Tick += MainTimer_Tick;
+			mainTimer.Start();
+		}
+
+		private void MainTimer_Tick(object sender, EventArgs e) {
+			if (showing) {
+				WindowInteropHelper helper = new WindowInteropHelper(this);
+				IntPtr foreground = Utils.GetForegroundWindow();
+
+				if (!Utils.IsWindowAvailable(kakaoHandle)) {
+					hideWindow();
+					return;
+				}
+
+				if (foreground != helper.Handle && foreground != kakaoHandle) {
+					hideWindow();				
+				}
+			}
 		}
 
 		private void addItem(string id) {
@@ -89,7 +112,7 @@ namespace Kakaocon {
 		}
 		
 		private void Window_Deactivated(object sender, EventArgs e) {
-			hideWindow();
+			//hideWindow();
 		}
 
 		private void Window_Closing(object sender, CancelEventArgs e) {
@@ -112,7 +135,6 @@ namespace Kakaocon {
 		}
 
 		public void Launcher_Clicked(IntPtr kakaoHandle, int left, int right, int bottom) {
-			//Utils.SendFile(kakaoHandle, path);
 			this.kakaoHandle = kakaoHandle;
 			this.showing = true;
 			if (launcher != null) {
@@ -251,7 +273,7 @@ namespace Kakaocon {
 					this.ci_c = ci_c;
 					for (int i = 0; i < list.Count; i++) {
 						IconItemView view = new IconItemView();
-						view.Margin = new Thickness((i % 5) * 100, (i / 5) * 120, 0, 0);
+						view.Margin = new Thickness((i % 5) * 90, (i / 5) * 120, 0, 0);
 						view.setIconSetClickListener(this);
 						view.setSelectable(true);
 						gridResult.Children.Add(view);
@@ -284,7 +306,7 @@ namespace Kakaocon {
 						this.selectedList = list;
 						for (int i = 0; i < list.Count; i++) {
 							IconItemView view = new IconItemView();
-							view.Margin = new Thickness((i % 4) * 100, (i / 4) * 100, 0, 0);
+							view.Margin = new Thickness((i % 4) * 90, (i / 4) * 90, 0, 0);
 							view.setIconSetClickListener(this);
 							gridOnlineItemList.Children.Add(view);
 							view.setUrl(list[i].path);
@@ -306,7 +328,7 @@ namespace Kakaocon {
 				if (list != null) {
 					for (int i = 0; i < list.Count; i++) {
 						IconItemView view = new IconItemView();
-						view.Margin = new Thickness((i % 4) * 100, (i / 4) * 100, 0, 0);
+						view.Margin = new Thickness((i % 4) * 90, (i / 4) * 90, 0, 0);
 						view.setLocalImageClickListener(this);
 						view.setSelectable(true);
 						gridLocalItemList.Children.Add(view);

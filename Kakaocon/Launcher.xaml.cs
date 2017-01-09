@@ -34,9 +34,7 @@ namespace Kakaocon {
 		
 		[DllImport("user32.dll")]
 		public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-		
-		[DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
-		private static extern IntPtr GetForegroundWindow();
+	
 
 		[DllImport("user32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -90,7 +88,7 @@ namespace Kakaocon {
 				EnumThreadWindows(thread.Id, (hWnd, lParam) => { handles.Add(hWnd); return true; }, IntPtr.Zero);
 			}
 
-			IntPtr foreground = GetForegroundWindow();
+			IntPtr foreground = Utils.GetForegroundWindow();
 			foreach (IntPtr intPtr in handles) {
 				if (intPtr == foreground) {
 					return intPtr;

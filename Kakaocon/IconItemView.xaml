@@ -7,10 +7,10 @@
              mc:Ignorable="d" 
 			 HorizontalAlignment="Left" 
 			 VerticalAlignment="Top"
-			 Width="100">
+			 Width="90">
 	<Grid MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
 		<StackPanel Orientation="Vertical">
-			<Grid Width="100" Background="White">
+			<Grid Width="90" Background="White">
 				<Grid x:Name="grid" Width="90" Height="90">
 					<Image x:Name="loading" Width="48" Height="48" Source="/Resources/image.png" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 					<Image x:Name="failed" Width="48" Height="48" Source="/Resources/no.png" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center"/>
