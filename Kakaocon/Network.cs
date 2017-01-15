@@ -40,5 +40,20 @@ namespace Kakaocon {
 			};
 			webClient.UploadStringAsync(new Uri("http://dccon.dcinside.com/index/package_detail"), post);
 		}
+
+		public static void getLastest(Action<string> callback) {
+			WebClient webClient = new WebClient();
+			webClient.DownloadStringCompleted += (s, e) => {
+				if (callback != null) {
+					if (e.Cancelled || e.Error != null) {
+						callback(null);
+					}
+					else {
+						callback(e.Result);
+					}
+				}
+			};
+			webClient.DownloadStringAsync(new Uri(Update.LastestUrl));
+		}
 	}
 }

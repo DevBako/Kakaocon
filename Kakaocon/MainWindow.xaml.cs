@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -32,7 +33,7 @@ namespace Kakaocon {
 		}
 
 		Launcher launcher;
-		WindowState windowState = WindowState.Local;
+		TabState windowState = TabState.Local;
 		int requestId = 1;
 		string ci_c;
 		IconSet selectedSet;
@@ -44,7 +45,7 @@ namespace Kakaocon {
 		string searchText = "";
 		int page = 1;
 
-		enum WindowState { Local, Search, Info };
+		enum TabState { Local, Search, Info };
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
 			Store.CleanUpTemp();
@@ -70,6 +71,13 @@ namespace Kakaocon {
 			mainTimer.Interval = TimeSpan.FromMilliseconds(300);
 			mainTimer.Tick += MainTimer_Tick;
 			mainTimer.Start();
+
+			DispatcherTimer updateTimer = new DispatcherTimer();
+			updateTimer.Interval = TimeSpan.FromMinutes(30);
+			updateTimer.Tick += UpdateTimer_Tick;
+			updateTimer.Start();
+
+			checkUpdate();
 		}
 
 		private void MainTimer_Tick(object sender, EventArgs e) {
@@ -166,13 +174,14 @@ namespace Kakaocon {
 		private void ImageButton_Response(object sender, CustomButtonEventArgs e) {
 			switch (e.Main) {
 				case "local":
-					if (windowState != WindowState.Local) {
-						windowState = WindowState.Local;
+					if (windowState != TabState.Local) {
+						windowState = TabState.Local;
 						buttonLocal.Selected = ImageButton.SelectedMode.True;
 						buttonOnline.Selected = ImageButton.SelectedMode.False;
+						buttonInfo.Selected = ImageButton.SelectedMode.False;
 						gridOnline.Visibility = Visibility.Collapsed;
 						gridLocal.Visibility = Visibility.Visible;
-						gridInfo.Visibility = Visibility.Visible;
+						gridInfo.Visibility = Visibility.Collapsed;
 
 						if (selectedLocalSet != null) {
 							buttonRemove.ViewMode = ImageButton.Mode.Visible;
@@ -181,13 +190,14 @@ namespace Kakaocon {
 					break;
 
 				case "online":
-					if (windowState != WindowState.Search) {
-						windowState = WindowState.Search;
+					if (windowState != TabState.Search) {
+						windowState = TabState.Search;
 						buttonLocal.Selected = ImageButton.SelectedMode.False;
 						buttonOnline.Selected = ImageButton.SelectedMode.True;
+						buttonInfo.Selected = ImageButton.SelectedMode.False;
 						gridOnline.Visibility = Visibility.Visible;
 						gridLocal.Visibility = Visibility.Collapsed;
-						gridInfo.Visibility = Visibility.Visible;
+						gridInfo.Visibility = Visibility.Collapsed;
 
 						textboxSearch.Focus();
 						textboxSearch.SelectAll();
@@ -195,12 +205,21 @@ namespace Kakaocon {
 					break;
 
 				case "info":
-					if (windowState != WindowState.Info) {
-						windowState = WindowState.Info;
-						gridOnline.Visibility = Visibility.Visible;
+					if (windowState != TabState.Info) {
+						windowState = TabState.Info;
+						buttonLocal.Selected = ImageButton.SelectedMode.False;
+						buttonOnline.Selected = ImageButton.SelectedMode.False;
+						buttonInfo.Selected = ImageButton.SelectedMode.True;
+						gridOnline.Visibility = Visibility.Collapsed;
 						gridLocal.Visibility = Visibility.Collapsed;
 						gridInfo.Visibility = Visibility.Visible;
+
+						checkUpdate();
 					}
+					break;
+
+				case "update":
+					Process.Start(Update.LastestUrl);
 					break;
 
 				case "search":
@@ -368,6 +387,22 @@ namespace Kakaocon {
 				}
 				catch { }
 			}
+		}
+
+		private void UpdateTimer_Tick(object sender, EventArgs e) {
+			checkUpdate();
+		}
+
+		private void checkUpdate() {
+			textNowVersion.Text = string.Format("v{0}", Version.version);
+
+			Network.getLastest((s) => {
+				string v = Parser.GetLastestVersion(s);
+				if (Version.version != v) {
+					buttonUpdate.ViewMode = ImageButton.Mode.Visible;
+					textLastestVersion.Text = string.Format("{0} available!", v);
+				}
+			});
 		}
 
 		private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {

@@ -92,7 +92,7 @@ namespace Kakaocon {
 			return list;
 		}
 
-		public static String GetLastestVersion(string html) {
+		public static string GetLastestVersion(string html) {
 			if (html == null) { return null; }
 
 			try {

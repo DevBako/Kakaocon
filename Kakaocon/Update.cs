@@ -5,6 +5,6 @@ using System.Text;
 
 namespace Kakaocon {
 	class Update {
-		static string LastestUrl = "https://github.com/DevBako/Kakaocon/releases/latest";
+		public static string LastestUrl = "https://github.com/DevBako/Kakaocon/releases/latest";
 	}
 }

@@ -10,8 +10,8 @@
 		Closing="Window_Closing"
 		ShowInTaskbar="False"
 		Topmost="True"
-		Opacity="1"
-		Visibility="Visible"
+		Opacity="0"
+		Visibility="Collapsed"
 		Deactivated="Window_Deactivated"
 		PreviewKeyDown="Window_PreviewKeyDown"
 		AllowsTransparency="True"
@@ -39,6 +39,17 @@
 					Source="Resources/close.png"
 					InnerMargin="8"
 					Response="buttonClose_Response" />
+			<local:ImageButton
+					x:Name="buttonUpdate"
+					Size="48"
+					Margin="0,0,48,0"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Center"
+					Source="Resources/download.png"
+					InnerMargin="10"
+					Type="update"
+					ViewMode="Hidden"
+					Response="ImageButton_Response" />
 			<StackPanel Orientation="Horizontal">
 				<local:ImageButton
 						x:Name="buttonLocal"
@@ -55,6 +66,14 @@
 						Selected="False"
 						Source="Resources/search.png"
 						Type="online"
+						InnerMargin="12"/>
+				<local:ImageButton
+						x:Name="buttonInfo"
+						Response="ImageButton_Response"
+						Size="48"
+						Selected="False"
+						Source="Resources/info.png"
+						Type="info"
 						InnerMargin="12"/>
 			</StackPanel>
 		</Grid>
@@ -139,7 +158,7 @@
 			<Grid x:Name="gridInfo" Visibility="Collapsed">
 				<StackPanel VerticalAlignment="Center">
 					<TextBlock x:Name="textNowVersion" Text="1" Foreground="Black" Margin="5" FontSize="21" HorizontalAlignment="Center"/>
-					<TextBlock x:Name="textLastestVersion"  Text="1" Foreground="Black" Margin="5" FontSize="21" HorizontalAlignment="Center"/>
+					<TextBlock x:Name="textLastestVersion" Foreground="ForestGreen" Text="" Margin="5" FontSize="21" HorizontalAlignment="Center"/>
 				</StackPanel>
 			</Grid>
 		</Grid>
