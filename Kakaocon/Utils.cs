@@ -53,6 +53,8 @@ namespace Kakaocon {
 			UInt32 style = (UInt32)GetWindowLong(handle, GCL_HMODULE);
 			UInt32 exStyle = (UInt32)GetWindowLong(handle, GWL_EXSTYLE);
 
+			Console.WriteLine(style + " " + exStyle);
+
 			return (style & WS_VISIBLE) == WS_VISIBLE && (style & WS_MINIMIZE) == 0 && (exStyle & WS_EX_ACCEPTFILES) == WS_EX_ACCEPTFILES;
 		}
 

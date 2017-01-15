@@ -32,7 +32,7 @@ namespace Kakaocon {
 
 				foreach (JsonObjectCollection obj in root) {
 					string id = Parser.getString(obj["id"]);
-					if (validation(id)) {
+					if (GetTitle(id) != null) {
 						DataList.Add(id);
 					}
 				}
@@ -49,25 +49,37 @@ namespace Kakaocon {
 
 			foreach (string path in Directory.GetDirectories(OnlinePath)) {
 				string id = Path.GetFileNameWithoutExtension(path);
-				if (validation(id)) {
+				if (GetTitle(id) != null) {
 					DataList.Add(id);
 				}
 			}
 			save();
 		}
 
-		public static bool validation(string id) {
+		public static string GetTitle(string id) {
 			if (id != null) {
 				string titleImagePath = Path.Combine(OnlinePath, id, TitleImageFileName);
 				string dataFilePath = Path.Combine(OnlinePath, id, DataFileName);
 
-				return File.Exists(titleImagePath) && File.Exists(dataFilePath);
+				if (File.Exists(titleImagePath) && File.Exists(dataFilePath)) {
+					JsonTextParser parser = new JsonTextParser();
+					JsonObjectCollection root = null;
+
+					using (StreamReader sr = new StreamReader(dataFilePath)) {
+
+						try {
+							root = (JsonObjectCollection)parser.Parse(sr.ReadToEnd());
+							return Parser.getString(root["title"]);
+						}
+						catch (Exception ex) { }
+					}
+				}
 			}
-			return false;
+			return null;
 		}
 
 		public static bool add(string id) {
-			if (validation(id)) {
+			if (GetTitle(id) != null) {
 				DataList.Add(id);
 				save();
 

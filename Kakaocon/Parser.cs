@@ -62,7 +62,7 @@ namespace Kakaocon {
 			return list;
 		}
 
-		public static String getString(JsonObject obj) {
+		public static string getString(JsonObject obj) {
 			try {
 				return obj.GetValue().ToString();
 			}
@@ -90,6 +90,25 @@ namespace Kakaocon {
 				return null;
 			}
 			return list;
+		}
+
+		public static String GetLastestVersion(string html) {
+			if (html == null) { return null; }
+
+			try {
+				HtmlDocument doc = new HtmlDocument();
+				doc.LoadHtml(html);
+
+				HtmlNodeCollection nodeList = doc.DocumentNode.SelectNodes("//h1[@class='release-title']");
+
+				for (int i = 0; i < nodeList.Count; i++) {
+					HtmlNode node = nodeList[i];
+					return node.InnerText.Trim();
+				}
+			}
+			catch { }
+
+			return null;
 		}
 	}
 }

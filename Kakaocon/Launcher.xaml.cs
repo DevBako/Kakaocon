@@ -108,7 +108,6 @@ namespace Kakaocon {
 				newHandle = p.MainWindowHandle;
 
 				IntPtr intPtr = getFocusedWindow(p.Id);
-
 				if (Utils.IsWindowAvailable(intPtr) && mainWindow != null && !mainWindow.isShowing()) {
 					kakaoHandle = intPtr;
 					PositionTimer_Tick(null, null);

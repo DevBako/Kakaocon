@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -31,7 +32,7 @@ namespace Kakaocon {
 		}
 
 		Launcher launcher;
-		bool isLocal = true;
+		WindowState windowState = WindowState.Local;
 		int requestId = 1;
 		string ci_c;
 		IconSet selectedSet;
@@ -42,6 +43,8 @@ namespace Kakaocon {
 		IntPtr kakaoHandle;
 		string searchText = "";
 		int page = 1;
+
+		enum WindowState { Local, Search, Info };
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
 			Store.CleanUpTemp();
@@ -87,7 +90,7 @@ namespace Kakaocon {
 
 		private void addItem(string id) {
 			try {
-				if (Store.validation(id)) {
+				if (Store.GetTitle(id) != null) {
 					IconItemView view = new IconItemView();
 					view.setIconSet(id, Path.Combine(Store.OnlinePath, id, Store.TitleImageFileName));
 					view.setLocalImageClickListener(this);
@@ -163,12 +166,13 @@ namespace Kakaocon {
 		private void ImageButton_Response(object sender, CustomButtonEventArgs e) {
 			switch (e.Main) {
 				case "local":
-					if (!isLocal) {
-						isLocal = true;
+					if (windowState != WindowState.Local) {
+						windowState = WindowState.Local;
 						buttonLocal.Selected = ImageButton.SelectedMode.True;
 						buttonOnline.Selected = ImageButton.SelectedMode.False;
 						gridOnline.Visibility = Visibility.Collapsed;
 						gridLocal.Visibility = Visibility.Visible;
+						gridInfo.Visibility = Visibility.Visible;
 
 						if (selectedLocalSet != null) {
 							buttonRemove.ViewMode = ImageButton.Mode.Visible;
@@ -177,17 +181,25 @@ namespace Kakaocon {
 					break;
 
 				case "online":
-					if (isLocal) {
-						isLocal = false;
-
-						buttonRemove.ViewMode = ImageButton.Mode.Hidden;
+					if (windowState != WindowState.Search) {
+						windowState = WindowState.Search;
 						buttonLocal.Selected = ImageButton.SelectedMode.False;
 						buttonOnline.Selected = ImageButton.SelectedMode.True;
 						gridOnline.Visibility = Visibility.Visible;
 						gridLocal.Visibility = Visibility.Collapsed;
+						gridInfo.Visibility = Visibility.Visible;
 
 						textboxSearch.Focus();
 						textboxSearch.SelectAll();
+					}
+					break;
+
+				case "info":
+					if (windowState != WindowState.Info) {
+						windowState = WindowState.Info;
+						gridOnline.Visibility = Visibility.Visible;
+						gridLocal.Visibility = Visibility.Collapsed;
+						gridInfo.Visibility = Visibility.Visible;
 					}
 					break;
 
@@ -207,7 +219,7 @@ namespace Kakaocon {
 				case "close_modal":
 					selectedSet = null;
 					selectedList = null;
-					gridInfo.Visibility = Visibility.Collapsed;
+					gridModal.Visibility = Visibility.Collapsed;
 					break;
 
 				case "remove":
@@ -292,7 +304,7 @@ namespace Kakaocon {
 		public void IconSet_Clicked(IconSet iconSet) {
 			scrollPreview.ScrollToTop();
 			buttonDownload.ViewMode = Store.dataExists(iconSet.Id) ? ImageButton.Mode.Disable : ImageButton.Mode.Visible;
-			gridInfo.Visibility = Visibility.Visible;
+			gridModal.Visibility = Visibility.Visible;
 			gridOnlineItemList.Children.Clear();
 
 			if (ci_c == null) {
@@ -323,12 +335,16 @@ namespace Kakaocon {
 			selectedLocalSet = id;
 			buttonRemove.ViewMode = id == null ? ImageButton.Mode.Hidden : ImageButton.Mode.Visible;
 
-			if (Store.validation(id)) {
+			string title = Store.GetTitle(id);
+
+			if (title != null) {
+				textLocalTitle.Text = title;
+
 				List<string> list = Parser.parseLocaItemSet(id);
 				if (list != null) {
 					for (int i = 0; i < list.Count; i++) {
 						IconItemView view = new IconItemView();
-						view.Margin = new Thickness((i % 4) * 90, (i / 4) * 90, 0, 0);
+						view.Margin = new Thickness((i % 4) * 90, (i / 4) * 90 + 40, 0, 0);
 						view.setLocalImageClickListener(this);
 						view.setSelectable(true);
 						gridLocalItemList.Children.Add(view);
@@ -336,6 +352,7 @@ namespace Kakaocon {
 					}
 				}
 				else {
+					textLocalTitle.Text = "";
 					// show error
 				}
 			}
@@ -350,6 +367,12 @@ namespace Kakaocon {
 					}
 				}
 				catch { }
+			}
+		}
+
+		private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
+			if (e.Key == Key.Escape) {
+				this.Close();
 			}
 		}
 	}

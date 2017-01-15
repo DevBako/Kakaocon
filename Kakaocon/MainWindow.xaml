@@ -10,9 +10,10 @@
 		Closing="Window_Closing"
 		ShowInTaskbar="False"
 		Topmost="True"
-		Opacity="0"
-		Visibility="Collapsed"
+		Opacity="1"
+		Visibility="Visible"
 		Deactivated="Window_Deactivated"
+		PreviewKeyDown="Window_PreviewKeyDown"
 		AllowsTransparency="True"
 		Background="Transparent"
 		SizeToContent="WidthAndHeight"
@@ -30,17 +31,6 @@
 		</Grid.RowDefinitions>
 		<Border Grid.RowSpan="2" x:Name="Border1" CornerRadius="3" Background="Green" />
 		<Grid Height="48" Background="{DynamicResource PrimaryBrush}" MouseDown="Grid_MouseDown">
-			<local:ImageButton
-					x:Name="buttonRemove"
-					Size="48"
-					ViewMode="Hidden"
-					Margin="0,0,48,0"
-					HorizontalAlignment="Right"
-					VerticalAlignment="Center"
-					Source="Resources/delete.png"
-					Type="remove"
-					InnerMargin="10"
-					Response="ImageButton_Response" />
 			<local:ImageButton
 					x:Name="buttonClose"
 					Size="48"
@@ -78,9 +68,28 @@
 					<StackPanel Width="90" HorizontalAlignment="Left" Background="White" x:Name="stackLocalList" Orientation="Vertical"/>
 				</ScrollViewer>
 				<Rectangle Width="1" VerticalAlignment="Stretch" Fill="LightGray" HorizontalAlignment="Right"/>
-				<ScrollViewer x:Name="scrollList" Grid.Column="1" VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" Background="Transparent">
-					<Grid x:Name="gridLocalItemList"/>
-				</ScrollViewer>
+				<Grid Grid.Column="1">
+					<ScrollViewer x:Name="scrollList" Grid.Column="1" VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" Background="Transparent">
+						<Grid x:Name="gridLocalItemList"/>
+					</ScrollViewer>
+					<Grid Height="40" VerticalAlignment="Top">
+						<Grid.Background>
+							<SolidColorBrush Color="{DynamicResource PrimaryColor}" Opacity="0.9"/>
+						</Grid.Background>
+						<TextBlock x:Name="textLocalTitle" Foreground="White" Margin="10,0,50,0" FontSize="16"/>
+						<local:ImageButton
+							x:Name="buttonRemove"
+							Size="40"
+							Margin="0,0,5,0"
+							ViewMode="Hidden"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Source="Resources/delete.png"
+							Type="remove"
+							InnerMargin="8"
+							Response="ImageButton_Response" />
+					</Grid>
+				</Grid>
 			</Grid>
 			<Grid x:Name="gridOnline" Visibility="Collapsed">
 				<Grid.RowDefinitions>
@@ -127,12 +136,18 @@
 						InnerMargin="12"/>
 				<Grid x:Name="gridResult" Width="450" Grid.Row="1" Grid.ColumnSpan="5" HorizontalAlignment="Center"/>
 			</Grid>
+			<Grid x:Name="gridInfo" Visibility="Collapsed">
+				<StackPanel VerticalAlignment="Center">
+					<TextBlock x:Name="textNowVersion" Text="1" Foreground="Black" Margin="5" FontSize="21" HorizontalAlignment="Center"/>
+					<TextBlock x:Name="textLastestVersion"  Text="1" Foreground="Black" Margin="5" FontSize="21" HorizontalAlignment="Center"/>
+				</StackPanel>
+			</Grid>
 		</Grid>
 		<!--
 		<Image x:Name="image"/>
 		<Button x:Name="button" Width="100" Height="40" Click="button_Click"/>
 		-->
-		<Grid x:Name="gridInfo" Visibility="Collapsed" Grid.RowSpan="2" Background="#99000000">
+		<Grid x:Name="gridModal" Visibility="Collapsed" Grid.RowSpan="2" Background="#99000000">
 			<Grid Width="360" Height="348">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="48"/>
