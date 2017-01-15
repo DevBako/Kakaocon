@@ -132,8 +132,7 @@ namespace Kakaocon {
 						try {
 							File.Delete(path);
 						}
-						catch {
-						}
+						catch { }
 					}
 				}
 			}

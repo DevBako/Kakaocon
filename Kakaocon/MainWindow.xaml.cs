@@ -119,6 +119,7 @@ namespace Kakaocon {
 		private void hideWindow() {
 			showing = false;
 			kakaoHandle = IntPtr.Zero;
+			Store.CleanUpTemp();
 			this.Hide();
 		}
 		
