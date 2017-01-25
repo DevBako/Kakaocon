@@ -399,7 +399,7 @@ namespace Kakaocon {
 
 			Network.getLastest((s) => {
 				string v = Parser.GetLastestVersion(s);
-				if (Version.version != v) {
+				if (v != null && Version.version != v) {
 					buttonUpdate.ViewMode = ImageButton.Mode.Visible;
 					textLastestVersion.Text = string.Format("{0} available!", v);
 				}
