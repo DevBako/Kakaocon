@@ -21,7 +21,7 @@ namespace Kakaocon {
 					}
 				}
 			};
-			webClient.DownloadStringAsync(new Uri(String.Format("http://dccon.dcinside.com/hot/{0}/all/{1}", page, text)));
+			webClient.DownloadStringAsync(new Uri(String.Format("http://dccon.dcinside.com/hot/{0}/title/{1}", page, text)));
 		}
 
 		public static void getIconList(string id, string ci_c, int requestId, Action<List<IconItem>, string, int> handler) {
