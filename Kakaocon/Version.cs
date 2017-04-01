@@ -5,6 +5,6 @@ using System.Text;
 
 namespace Kakaocon {
 	class Version {
-		public static string version = "0.0.2";
+		public static string version = "0.0.3";
 	}
 }

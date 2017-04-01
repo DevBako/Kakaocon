@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Kakaocon.Model;
@@ -52,8 +53,6 @@ namespace Kakaocon {
 
 			UInt32 style = (UInt32)GetWindowLong(handle, GCL_HMODULE);
 			UInt32 exStyle = (UInt32)GetWindowLong(handle, GWL_EXSTYLE);
-
-			Console.WriteLine(style + " " + exStyle);
 
 			return (style & WS_VISIBLE) == WS_VISIBLE && (style & WS_MINIMIZE) == 0 && (exStyle & WS_EX_ACCEPTFILES) == WS_EX_ACCEPTFILES;
 		}
@@ -293,6 +292,31 @@ namespace Kakaocon {
 				}
 				return outputPath;
 			}
+		}
+
+		public static bool isTowardsLeft(int left, int right) {
+			if (left < 0) {
+				return true;
+			}
+
+			int totalWidth = 0;
+			int threshold = (right - left) / 2;
+
+			foreach (Screen screen in Screen.AllScreens) {
+				int area = Math.Min(screen.Bounds.Width + totalWidth, right) - Math.Max(totalWidth, left);
+
+				Console.WriteLine("{0} {1} {2} {3} : {4} {5}", 
+					screen.Bounds.Width, totalWidth, left, right,
+					area, threshold);
+
+				if (area >= threshold) {
+					return left - totalWidth < 300;
+				}
+
+				totalWidth += screen.Bounds.Width;
+			}
+
+			return false;
 		}
 	}
 }

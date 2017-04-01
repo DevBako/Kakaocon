@@ -152,12 +152,14 @@ namespace Kakaocon {
 			if (launcher != null) {
 				launcher.Hide();
 			}
-			if (left > 300) {
-				this.Left = left - this.Width;
-			}
-			else {
+
+			if (Utils.isTowardsLeft(left, right)) {
 				this.Left = right;
 			}
+			else {
+				this.Left = left - this.Width;
+			}
+
 			this.Top = bottom - this.Height;
 			this.Opacity = 1;
 			this.Show();
@@ -297,19 +299,26 @@ namespace Kakaocon {
 		private void search(int newPage) {
 			page = Math.Max(1, newPage);
 			gridResult.Children.Clear();
+			gridNoResult.Visibility = Visibility.Collapsed;
 			buttonPrev.ViewMode = page == 1 ? ImageButton.Mode.Disable : ImageButton.Mode.Visible;
 			buttonNext.ViewMode = ImageButton.Mode.Visible;
 			textPage.Text = page.ToString();
 			Network.getIconSet(searchText, page, ++requestId, (list, id, ci_c) => {
 				if (requestId == id && list != null) {
 					this.ci_c = ci_c;
-					for (int i = 0; i < list.Count; i++) {
-						IconItemView view = new IconItemView();
-						view.Margin = new Thickness((i % 5) * 90, (i / 5) * 120, 0, 0);
-						view.setIconSetClickListener(this);
-						view.setSelectable(true);
-						gridResult.Children.Add(view);
-						view.setIconSet(list[i]);
+
+					if (list.Count > 0) {
+						for (int i = 0; i < list.Count; i++) {
+							IconItemView view = new IconItemView();
+							view.Margin = new Thickness((i % 5) * 90, (i / 5) * 120, 0, 0);
+							view.setIconSetClickListener(this);
+							view.setSelectable(true);
+							gridResult.Children.Add(view);
+							view.setIconSet(list[i]);
+						}
+					}
+					else {
+						gridNoResult.Visibility = Visibility.Visible;
 					}
 				}
 			});

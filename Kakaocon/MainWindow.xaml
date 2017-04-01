@@ -154,6 +154,9 @@
 						Type="next"
 						InnerMargin="12"/>
 				<Grid x:Name="gridResult" Width="450" Grid.Row="1" Grid.ColumnSpan="5" HorizontalAlignment="Center"/>
+				<Grid x:Name="gridNoResult" Visibility="Collapsed" Grid.Row="1" Grid.ColumnSpan="5">
+					<TextBlock Text="검색 결과가 없거나 마지막 페이지입니다." HorizontalAlignment="Center"/>
+				</Grid>
 			</Grid>
 			<Grid x:Name="gridInfo" Visibility="Collapsed">
 				<StackPanel VerticalAlignment="Center">

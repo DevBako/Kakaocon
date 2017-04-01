@@ -2,19 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace Kakaocon {
@@ -128,12 +118,13 @@ namespace Kakaocon {
 				RECT rect = new RECT();
 				GetWindowRect(kakaoHandle, ref rect);
 
-				if (rect.Left > 300) {
-					this.Left = rect.Left - this.Width;
-				}
-				else {
+				if (Utils.isTowardsLeft(rect.Left, rect.Right)) {
 					this.Left = rect.Right;
 				}
+				else {
+					this.Left = rect.Left - this.Width;
+				}
+
 				this.Top = rect.Bottom - this.Height;
 
 				this.savedLeft = rect.Left;
