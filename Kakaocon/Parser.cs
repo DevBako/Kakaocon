@@ -17,14 +17,14 @@ namespace Kakaocon {
 			HtmlDocument doc = new HtmlDocument();
 			doc.LoadHtml(html);
 
-			HtmlNodeCollection nodeList = doc.DocumentNode.SelectNodes("//div[@class='sticker_list_box']//ul//li");
+			HtmlNodeCollection nodeList = doc.DocumentNode.SelectNodes("//ul[contains(@class, 'dccon_shop_list')]//li");
 			if (nodeList != null) {
 				foreach (HtmlNode node in nodeList) {
 					try {
 						string id = node.GetAttributeValue("package_idx", "");
 						string url = node.SelectSingleNode(".//img").GetAttributeValue("src", "");
-						string name = node.SelectSingleNode(".//*[@class='sticker1_name']").InnerText;
-						string seller = node.SelectSingleNode(".//*[@class='seller']").InnerText;
+						string name = node.SelectSingleNode(".//*[@class='dcon_name']").InnerText;
+						string seller = node.SelectSingleNode(".//*[@class='dcon_seller']").InnerText;
 
 						list.Add(new IconSet(id, url, name, seller));
 					}

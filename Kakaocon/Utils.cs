@@ -305,10 +305,6 @@ namespace Kakaocon {
 			foreach (Screen screen in Screen.AllScreens) {
 				int area = Math.Min(screen.Bounds.Width + totalWidth, right) - Math.Max(totalWidth, left);
 
-				Console.WriteLine("{0} {1} {2} {3} : {4} {5}", 
-					screen.Bounds.Width, totalWidth, left, right,
-					area, threshold);
-
 				if (area >= threshold) {
 					return left - totalWidth < 300;
 				}
