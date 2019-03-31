@@ -48,6 +48,13 @@ namespace Kakaocon {
 		enum TabState { Local, Search, Info };
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
+			ServicePointManager.Expect100Continue = true;
+			ServicePointManager.DefaultConnectionLimit = 9999;
+			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls 
+				| SecurityProtocolType.Tls11
+				| SecurityProtocolType.Tls12
+				| SecurityProtocolType.Ssl3;
+
 			Store.CleanUpTemp();
 			Store.Load();
 

@@ -16,7 +16,7 @@ namespace Kakaocon.Model {
 		public string path {
 			get { return _path; }
 			set {
-				_path = string.Format("http://dcimg1.dcinside.com/dccon.php?no={0}", value);
+				_path = string.Format("https://dcimg1.dcinside.com/dccon.php?no={0}", value);
 			}
 		}
 	}

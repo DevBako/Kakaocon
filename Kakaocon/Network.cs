@@ -11,6 +11,7 @@ namespace Kakaocon {
 	class Network {
 		public static void getIconSet(string text, int page, int requestId, Action<List<IconSet>, int, string> handler) {
 			CookieAwareWebClient webClient = Utils.CreateHtmlWebClient();
+
 			webClient.DownloadStringCompleted += (sender, e) => {
 				if (handler != null) {
 					if (e.Cancelled || e.Error != null) {
@@ -21,7 +22,7 @@ namespace Kakaocon {
 					}
 				}
 			};
-			webClient.DownloadStringAsync(new Uri(String.Format("http://dccon.dcinside.com/hot/{0}/title/{1}", page, text)));
+			webClient.DownloadStringAsync(new Uri(String.Format("https://dccon.dcinside.com/hot/{0}/title/{1}", page, text)));
 		}
 
 		public static void getIconList(string id, string ci_c, int requestId, Action<List<IconItem>, string, int> handler) {
@@ -38,7 +39,7 @@ namespace Kakaocon {
 					}
 				}
 			};
-			webClient.UploadStringAsync(new Uri("http://dccon.dcinside.com/index/package_detail"), post);
+			webClient.UploadStringAsync(new Uri("https://dccon.dcinside.com/index/package_detail"), post);
 		}
 
 		public static void getLastest(Action<string> callback) {

@@ -85,7 +85,7 @@ namespace Kakaocon {
 			//webClient.Headers.Add("Accept-Encoding", "gzip, deflate, sdch");
 			//webClient.Headers.Add("Accept-Language", "ko,en-US;q=0.8,en;q=0.6,ja;q=0.4");
 			webClient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
-			webClient.Headers.Add("Referer", "http://dccon.dcinside.com/");
+			webClient.Headers.Add("Referer", "https://dccon.dcinside.com/");
 			//webClient.Headers.Add("Host", "dcimg1.dcinside.com");
 
 			return webClient;
@@ -94,7 +94,7 @@ namespace Kakaocon {
 		public static CookieAwareWebClient CreateHtmlWebClient() {
 			CookieAwareWebClient webClient = new CookieAwareWebClient();
 			webClient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
-			webClient.Headers.Add("Referer", "http://dccon.dcinside.com/");
+			webClient.Headers.Add("Referer", "https://dccon.dcinside.com/");
 			webClient.Headers.Add("Host", "dccon.dcinside.com");
 			webClient.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
 			webClient.Headers.Add("Accept-Language", "ko,en-US;q=0.8,en;q=0.6,ja;q=0.4");
