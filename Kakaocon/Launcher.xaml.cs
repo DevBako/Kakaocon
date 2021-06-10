@@ -90,27 +90,35 @@ namespace Kakaocon {
 		private IntPtr kakaoHandle;
 
 		private void MainTimer_Tick(object sender, EventArgs e) {
+			if (mainWindow != null && !mainWindow.isShowing()) {
+				foreach (string processName in new List<String> { "between" }) {
+					IntPtr intPtr = getActiveWindow(processName);
+
+					if (intPtr != IntPtr.Zero) {
+						kakaoHandle = intPtr;
+						PositionTimer_Tick(null, null);
+						this.Opacity = 1;
+						this.Show();
+						return;
+					}
+				}
+			}
+
+			kakaoHandle = IntPtr.Zero;
+			this.Hide();
+		}
+
+		private IntPtr getActiveWindow(string processName) {
 			Process[] processes = Process.GetProcessesByName("kakaotalk");
 
-			IntPtr newHandle = IntPtr.Zero;
-
 			foreach (Process p in processes) {
-				newHandle = p.MainWindowHandle;
-
 				IntPtr intPtr = getFocusedWindow(p.Id);
-				if (Utils.IsWindowAvailable(intPtr) && mainWindow != null && !mainWindow.isShowing()) {
-					kakaoHandle = intPtr;
-					PositionTimer_Tick(null, null);
-					this.Opacity = 1;
-					this.Show();
-				}
-				else {
-					kakaoHandle = IntPtr.Zero;
-					this.Hide();
-				}
 
-				break;
+				if (Utils.IsWindowAvailable(intPtr)) {
+					return intPtr;
+				}
 			}
+			return IntPtr.Zero;
 		}
 
 		private void PositionTimer_Tick(object sender, EventArgs e) {

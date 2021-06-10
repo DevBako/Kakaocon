@@ -122,7 +122,7 @@ namespace Kakaocon {
 				if (cookieSet.Trim().StartsWith("domain")) {
 					string[] kvps = cookieSet.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 					foreach (string kvp in kvps) {
-						if (kvp.Trim().StartsWith("ci_c")) {
+						if (kvp.Trim().Contains("ci_c")) {
 							string[] data = kvp.Trim().Split(new string[] { "=" }, StringSplitOptions.RemoveEmptyEntries);
 							if (data.Length >= 2) {
 								return data[1];

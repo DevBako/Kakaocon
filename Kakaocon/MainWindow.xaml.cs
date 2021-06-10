@@ -343,7 +343,7 @@ namespace Kakaocon {
 			gridModal.Visibility = Visibility.Visible;
 			gridOnlineItemList.Children.Clear();
 
-			if (ci_c == null) {
+			if (ci_c == null && false) {
 				// show error
 			}
 			else {
